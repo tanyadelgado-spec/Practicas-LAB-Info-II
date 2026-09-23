@@ -52,5 +52,3 @@ void desencriptar(unsigned char *datos, int cantidad, int posiciones, unsigned c
         datos[i] = rotacionDerecha(datos[i], posiciones);
     }
 }
-
-

@@ -4,6 +4,8 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        desencriptacion.cpp \
         main.cpp
 
-HEADERS +=
+HEADERS += \
+    desencriptacion.h
