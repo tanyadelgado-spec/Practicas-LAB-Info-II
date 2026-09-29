@@ -68,9 +68,11 @@ int main(){
         cout << static_cast<int>(datosComprimidos[i]) << " ";
     }
     cout << endl;
+    break;
     }
-    case 4 :{}
+    case 4 :{
 
+    }
     default :{
         cout << "Opcion invalida" << endl;
     }
