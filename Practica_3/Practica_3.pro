@@ -7,9 +7,11 @@ SOURCES += \
         LZ78.cpp \
         RLE.cpp \
         desencriptacion.cpp \
+        integracion.cpp \
         main.cpp
 
 HEADERS += \
     LZ78.h \
     RLE.h \
-    desencriptacion.h
+    desencriptacion.h \
+    integracion.h

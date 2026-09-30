@@ -1,20 +1,66 @@
 #include <iostream>
-#include <desencriptacion.h>
-#include <RLE.h>
-#include <LZ78.h>
-#include <string>
+#include <integracion.h>
 
 using namespace std;
 
 int main(){
-    int opcion = 0;
-    cout << "Ingrese una de las siguientes opciones : \n"
-            "1. 5.1 Compresion y descompresion RLE \n"
-            "2. 5.2 Compresion y descompresion LZ78 \n"
-            "3. 5.3 Encriptacion y desencriptacion \n"
-            "4. 5.4 Integracion " << endl;
-    cin >> opcion;
 
+    int opcion, posiciones;;
+    string direccion, archivoFinal;
+    unsigned char clave = 'K';
+
+    do{
+        //Menu
+        cout << "-_-_-_- Compresion de Archivos -_-_-_-\n";
+        cout <<"1.RLE\n";
+        cout <<"2.LZ78\n";
+        cout <<"3. Salir\n";
+        cout << "\nIngrese una opcion: ";
+        cin >> opcion;
+
+        //Direcciones de los archivos
+        cout << "Ingrese la direccion del archivo a comprimir:\n";
+        cin >> direccion;
+
+        cout << "Ingrese la direccion del archivo donde se guardara el resultado:\n";
+        cin >> archivoFinal;
+
+        //Posiciones para la encriptacion
+        do{
+            cout << "Ingrese el numero de posiciones a rotar (1-7) para la encriptacion: ";
+            cin >> posiciones;
+
+            if(posiciones < 1 || posiciones > 7){
+                cout << "Elije un valor entre 1 y 7.\n";
+            }
+
+        }while(posiciones < 1 || posiciones > 7);
+
+        //Casos de compresion
+        switch (opcion){
+
+        case 1: //5.1 Compresion y descompresion RLE
+
+            cout << "-_-_- Compresion con RLE -_-_-\n";
+            ejecutarRLE(direccion, archivoFinal, posiciones, clave);
+            break;
+
+        case 2: //5.2 Compresion y descompresion LZ78
+
+
+            break;
+
+        default:
+            cout << "Opcion invalida" << endl;
+            break;
+        }
+    }while(opcion!=3);
+
+    cout << "\nSalida exitosa.\n";
+    return 0;
+}
+
+/*
     switch (opcion){
 
     case 1 :{
@@ -31,7 +77,7 @@ int main(){
 
     break;
     }
-    //
+    //---------------------
     case 2 :{
         char cadena[1000];
         cout << "Ingrese la cadena a comprimir : " << endl;
@@ -53,49 +99,10 @@ int main(){
         break;
     }
 
-    case 3 :{
-    //5.3 Encriptacion y desencriptacion
-    unsigned char datosComprimidos[8];//Arreglo de bytes producidos en la encriptacion
-    int cantidadDatos = sizeof(datosComprimidos);
-
-    int posiciones;
-    char clave = 'K';
-
-    do{
-        cout << "Ingrese el numero de posiciones a rotar (1-7): ";
-        cin >> posiciones;
-
-    }while(posiciones <= 0 | posiciones >= 8);
-
-    cout << "\nDatos originales:\n";
-    for (int i = 0; i < cantidadDatos; ++i) {
-        cout << static_cast<int>(datosComprimidos[i]) << " ";
-    }
-
-    //Encriptar
-    encriptar(datosComprimidos, cantidadDatos, posiciones, clave);
-    cout << "\n\nDatos encriptados:\n";
-    for (int i = 0; i < cantidadDatos; ++i) {
-        cout << static_cast<int>(datosComprimidos[i]) << " ";
-    }
-
-    //Desencriptar
-    desencriptar(datosComprimidos, cantidadDatos, posiciones, clave);
-    cout << "\n\nDatos recuperados:\n";
-    for (int i = 0; i < cantidadDatos; ++i) {
-        cout << static_cast<int>(datosComprimidos[i]) << " ";
-    }
-    cout << endl;
-    break;
-    }
-    case 4 :{
-
-    }
     default :{
         cout << "Opcion invalida" << endl;
     }
     break;
     }
+*/
 
-    return 0;
-}
