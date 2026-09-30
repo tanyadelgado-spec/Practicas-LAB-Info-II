@@ -1,6 +1,7 @@
 #include <iostream>
 #include <desencriptacion.h>
 #include <RLE.h>
+#include <LZ78.h>
 #include <string>
 
 using namespace std;
@@ -32,6 +33,23 @@ int main(){
     }
     //
     case 2 :{
+        char cadena[1000];
+        cout << "Ingrese la cadena a comprimir : " << endl;
+        cin >> cadena ;
+        int* lista_prefi = nullptr;
+        char* lista_cade = nullptr;
+        int num_parejas = 0;
+
+        compresion_LZ78(cadena,lista_prefi, lista_cade, num_parejas);
+
+        //se muestra el par (indice, caracter)
+        for(int i = 1; i < num_parejas; i++){
+            cout << "Se agrego al diccionario : (" << lista_prefi[i] << ", "<< lista_cade[i] <<"), " << endl ;
+        }
+
+        delete[] lista_prefi;
+        delete[] lista_cade;
+
         break;
     }
 
