@@ -73,6 +73,7 @@ void ejecutarRLE(const string &direccion, const string &archivoFinal, int posici
     cout << "\nContenido del archivo (comprimido):\n";
     cout << comprimido << endl;
 
+
     //Convertir a bytes
     int cantidadDatos = static_cast<int>(comprimido.size());
 

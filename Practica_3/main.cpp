@@ -1,6 +1,6 @@
 #include <iostream>
 #include <integracion.h>
-
+#include <LZ78.h>
 using namespace std;
 
 int main(){
@@ -9,7 +9,7 @@ int main(){
     string direccion, archivoFinal;
     unsigned char clave = 'K';
 
-    do{
+    while(true){
         //Menu
         cout << "-_-_-_- Compresion de Archivos -_-_-_-\n";
         cout <<"1.RLE\n";
@@ -17,6 +17,8 @@ int main(){
         cout <<"3. Salir\n";
         cout << "\nIngrese una opcion: ";
         cin >> opcion;
+        if(opcion == 3) break;
+
 
         //Direcciones de los archivos
         cout << "Ingrese la direccion del archivo a comprimir:\n";
@@ -24,6 +26,7 @@ int main(){
 
         cout << "Ingrese la direccion del archivo donde se guardara el resultado:\n";
         cin >> archivoFinal;
+
 
         //Posiciones para la encriptacion
         do{
@@ -47,14 +50,16 @@ int main(){
 
         case 2: //5.2 Compresion y descompresion LZ78
 
+            cout << "-_-_- Compresion con LZ78 -_-_-\n";
+            //ejecutarLZ78(direccion, archivoFinal, posiciones, clave);
 
             break;
 
         default:
             cout << "Opcion invalida" << endl;
-            break;
+            break;}
         }
-    }while(opcion!=3);
+
 
     cout << "\nSalida exitosa.\n";
     return 0;

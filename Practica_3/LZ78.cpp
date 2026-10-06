@@ -7,7 +7,7 @@ using namespace std;
 
 //Buscar si la letra ya existe en el diccionario
 int buscar(int* dic_prefijos, char* dic_cadenas, int tamanio, int prefijo, char lbuscada){
-    for(int i = 0; i < tamanio; i++){
+    for(int i = 1; i < tamanio; i++){
         if(lbuscada == dic_cadenas[i] && prefijo == dic_prefijos[i]){
             return i;
         }
@@ -51,7 +51,7 @@ void compresion_LZ78(const char* cadena, int*& lista_prefijos, char*& lista_cade
     while(cadena[i] != '\0'){
         char lactual = cadena[i];
 
-        int indice = buscar(dic_prefijos, dic_cadenas, tamanio, lactual, prefijo);
+        int indice = buscar(dic_prefijos, dic_cadenas, tamanio, prefijo,  lactual);
 
         if(indice == -1){
 
