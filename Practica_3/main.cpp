@@ -50,90 +50,26 @@ int main(){
         case 2: {//5.2 Compresion y descompresion LZ78
 
             cout << "-_-_- Compresion con LZ78 -_-_-\n";
-            //ejecutarLZ78(direccion, archivoFinal, posiciones, clave);
+            ejecutarLZ78(direccion, archivoFinal, posiciones, clave);
 
-            char cadena[1000];
-            cout << "Ingrese la cadena a comprimir : " << endl;
-            // 1. Limpiamos cualquier residuo o salto de linea '\n' atascado en el teclado
-            cin.ignore();
-            // 2. Leemos la linea completa de forma segura (impide que la cadena se corte)
-            cin.getline(cadena, 1000);
 
-            int* lista_prefi = nullptr;
-            char* lista_cade = nullptr;
-            int num_parejas = 0;
-
-            compresion_LZ78(cadena,lista_prefi, lista_cade, num_parejas);
-
-            //se muestra el par (indice, caracter)
+            /*//se muestra el par (indice, caracter)
             for(int i = 1; i < num_parejas; i++){
                 cout << "Se agrego al diccionario : (" << lista_prefi[i] << ", "<< lista_cade[i] <<"), " << endl ;
             }
             char* final = nullptr;
             descompresion_LZ78(lista_prefi, lista_cade, num_parejas, final);
 
-            cout << "el texto descomprimido es :" << final<< endl ;
-            delete[] lista_prefi;
-            delete[] lista_cade;
-            delete[] final;
+            cout << "el texto descomprimido es :" << final<< endl ;*/
 
             break;
         }
         default:{
             cout << "Opcion invalida" << endl;
-            break;
+            break;}
         }
         }
-        }
-
-
     cout << "\nSalida exitosa.\n";
     return 0;
 }
-
-/*
-    switch (opcion){
-
-    case 1 :{
-    //5.1 Compresion y descompresion RLE
-    string cadena;
-    cout << "Ingrese la cadena a comprimir: " << endl;
-    cin >> cadena;
-    string compressed = comprimir_RLE(cadena);
-    string original = descomprimir_RLE(compressed);
-
-    cout << "La cadena comprimida es : \n" << compressed << endl;
-
-    cout << "La cadena descomprimida es : \n" << original << endl;
-
-    break;
-    }
-    //---------------------
-    case 2 :{
-        char cadena[1000];
-        cout << "Ingrese la cadena a comprimir : " << endl;
-        cin >> cadena ;
-        int* lista_prefi = nullptr;
-        char* lista_cade = nullptr;
-        int num_parejas = 0;
-
-        compresion_LZ78(cadena,lista_prefi, lista_cade, num_parejas);
-
-        //se muestra el par (indice, caracter)
-        for(int i = 1; i < num_parejas; i++){
-            cout << "Se agrego al diccionario : (" << lista_prefi[i] << ", "<< lista_cade[i] <<"), " << endl ;
-        }
-
-        delete[] lista_prefi;
-        delete[] lista_cade;
-
-        break;
-    }
-
-    default :{
-        cout << "Opcion invalida" << endl;
-    }
-    break;
-    }
-*/
 

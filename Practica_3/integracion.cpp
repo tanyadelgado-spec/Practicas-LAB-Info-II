@@ -197,7 +197,93 @@ bool verificarLZ78(const char *original, const char *recuperado, int tamanio){
 
 
 //Ejecucción de compresion LZ78
-void ejecutarLZ78(const char *direccion, const char *archivoFinal, int posiciones, unsigned char clave){
+void ejecutarLZ78(const string &direccion, const string &archivoFinal, int posiciones, unsigned char clave) {
+    //  Leer el archivo original
+    string original = leerArchivoRLE(direccion);
 
+    cout << "\nArchivo leido correctamente.\n";
+    cout << "Cantidad de caracteres: " << original.size() << endl;
+
+    //  Variables para recibir los resultados la compresión LZ78
+    int* lista_prefi = nullptr;
+    char* lista_cade = nullptr;
+    int num_parejas = 0;
+
+    // Ejecutamos tu compresión manual (pasa el contenido como const char*)
+    compresion_LZ78(original.c_str(), lista_prefi, lista_cade, num_parejas);
+
+    // Convertimos las parejas a un formato de texto para  y guardar
+    // Empezamos en 1 porque el índice 0 es la raíz vacía interna
+    string comprimidoTexto = "";
+    for(int i = 1; i < num_parejas; i++) {
+        comprimidoTexto += to_string(lista_prefi[i]) + lista_cade[i];
+    }
+    cout << "\nCompresion en LZ78: \n";
+    //Mostramos las parejas de la compresion
+    for(int i = 1; i < num_parejas; i++){
+        cout << "Se agrego al diccionario : (" << lista_prefi[i] << ", "<< lista_cade[i] <<"), " << endl ;
+    }
+
+    // Guardamos el resultado comprimido
+    string comprimidoTextoSave = comprimidoTexto + "\n";
+    guardarArchivoRLE(archivoFinal, comprimidoTextoSave);
+
+    //  Convertir a bytes para realizar la encriptación
+    int cantidadDatos = static_cast<int>(comprimidoTexto.size());
+    unsigned char *datos = new unsigned char[cantidadDatos];
+
+    for(int i = 0; i < cantidadDatos; i++) {
+        datos[i] = static_cast<unsigned char>(comprimidoTexto[i]);
+    }
+
+    // Encriptamos datos en memoria
+    encriptar(datos, cantidadDatos, posiciones, clave);
+    cout << "\nDatos encriptados exitosamente: \n";
+
+    // Convertimos bytes encriptados a Char para mostrar y guardar en la segunda línea
+    string datosEncriptadosStr;
+    for(int i = 0; i < cantidadDatos; i++) {
+        datosEncriptadosStr += static_cast<char>(datos[i]);
+    }
+    cout << datosEncriptadosStr << endl;
+
+    datosEncriptadosStr += "\n";
+    guardarArchivoRLE(archivoFinal, datosEncriptadosStr);
+
+    // 5. Desencriptar datos en memoria
+    desencriptar(datos, cantidadDatos, posiciones, clave);
+    cout << "\nDatos desencriptados exitosamente:\n";
+
+    // Convertir de nuevo a string para verificar lo recuperado
+    string comprimidoRecuperado;
+    for(int i = 0; i < cantidadDatos; i++) {
+        comprimidoRecuperado += static_cast<char>(datos[i]);
+    }
+    cout << comprimidoRecuperado << endl;
+
+    // Descompresión LZ78
+
+    char* finalDescomprimido = nullptr;
+    descompresion_LZ78(lista_prefi, lista_cade, num_parejas, finalDescomprimido);
+
+    cout << "Datos descomprimidos exitosamente:\n";
+    cout << finalDescomprimido << endl;
+
+    // Guardamos el resultado recuperado
+    string recuperadosave = string(finalDescomprimido) + "\n";
+    guardarArchivoRLE(archivoFinal, recuperadosave);
+
+    // Verificación de igualdad
+    if(original == finalDescomprimido) {
+        cout << "El archivo recuperado coincide exactamente con el archivo original.\n";
+    } else {
+        cout << "Los archivos no coinciden.\n";
+    }
+
+    // Limpieza de memoria dinámica de todos los punteros ocupados
+    delete[] datos;
+    delete[] lista_prefi;
+    delete[] lista_cade;
+    delete[] finalDescomprimido;
 }
 
