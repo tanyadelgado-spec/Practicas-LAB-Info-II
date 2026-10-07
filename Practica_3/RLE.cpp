@@ -26,7 +26,6 @@ string comprimir_RLE(const string& codigo){
 
 string descomprimir_RLE(const string& enigma){
     string descomprimido="";
-    descomprimido.clear();
     int n = enigma.length(); // numero de pares encriptados
 
     for(int i = 0; i < n - 1; i+=2){

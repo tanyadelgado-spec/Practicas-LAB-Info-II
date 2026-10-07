@@ -37,7 +37,7 @@ string leerArchivoRLE(const string &direccion){
 //Guardar el archivo leido para RLE
 void guardarArchivoRLE(const string &direccion, const string &texto){
 
-    ofstream archivo(direccion, ios::binary);
+    ofstream archivo(direccion, ios::binary | ios::app);
 
     if(!archivo){
         throw runtime_error("No se pudo crear el archivo a comprimir.");
@@ -70,9 +70,8 @@ void ejecutarRLE(const string &direccion, const string &archivoFinal, int posici
     //Comprimir
     string comprimido = comprimir_RLE(original);
 
-    cout << "\nContenido del archivo (comprimido):\n";
+    cout << "\n Compresion en RLE: \n";
     cout << comprimido << endl;
-
 
     //Convertir a bytes
     int cantidadDatos = static_cast<int>(comprimido.size());
@@ -83,12 +82,28 @@ void ejecutarRLE(const string &direccion, const string &archivoFinal, int posici
         datos[i] = static_cast<unsigned char>(comprimido[i]);
     }
 
+    comprimido += "\n";
+
+    // Guardamos el resultado en el archivo final especificado por el usuario
+    guardarArchivoRLE(archivoFinal, comprimido);
+
     //Encriptar y desencriptar datos
     encriptar(datos, cantidadDatos, posiciones, clave);
-    cout << "\nDatos encriptados exitosamente.\n";
+    cout << "\nDatos encriptados exitosamente: \n";
+
+
+    //Convertir a Char
+    string datosEncriptadosStr;
+    for(int i = 0; i < cantidadDatos; i++){
+        datosEncriptadosStr += static_cast<char>(datos[i]);
+    }
+    cout << datosEncriptadosStr << endl;
+    datosEncriptadosStr += "\n";
+    // Guardamos el resultado en el archivo final especificado por el usuario
+    guardarArchivoRLE(archivoFinal, datosEncriptadosStr);
 
     desencriptar(datos, cantidadDatos, posiciones, clave);
-    cout << "Datos desencriptados exitosamente.\n";
+    cout << "Datos desencriptados exitosamente :\n";
 
     //Convertir de nuevo a string
     string comprimidoRecuperado;
@@ -96,12 +111,16 @@ void ejecutarRLE(const string &direccion, const string &archivoFinal, int posici
     for(int i = 0; i < cantidadDatos; i++){
         comprimidoRecuperado += static_cast<char>(datos[i]);
     }
+    cout << comprimidoRecuperado << endl;
 
     //Descomprimirlo
     string recuperado = descomprimir_RLE(comprimidoRecuperado);
+    cout << "Datos descomprimidos exitosamente :\n";
+    cout << recuperado << endl;
 
+    string recuperadosave = recuperado + "\n";
     //Guardar archivo recuperado
-    guardarArchivoRLE(archivoFinal, recuperado);
+    guardarArchivoRLE(archivoFinal, recuperadosave);
 
     //Verificación de igualdad entre datos
     if(verificarRLE(original, recuperado)){
