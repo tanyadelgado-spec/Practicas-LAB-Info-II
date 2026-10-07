@@ -1,0 +1,7 @@
+C:\Users\User\OneDrive\Documents\GitHub\Practicas-LAB-Info-II\Practica_3\TestRLE.txt
+
+
+C:\Users\User\OneDrive\Documents\GitHub\Practicas-LAB-Info-II\Practica_3\TestLZ78.txt
+
+
+C:\Users\User\OneDrive\Documents\GitHub\Practicas-LAB-Info-II\Practica_3\TResultado.txt

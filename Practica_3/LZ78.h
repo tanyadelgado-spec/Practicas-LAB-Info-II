@@ -5,7 +5,7 @@
 void compresion_LZ78(const char* cadena, int*& lista_prefijos, char*& lista_cadenas, int &nparejas);
 
 //Funcion para descomprimir con el sistema LZ78
-void descompresion_LZ78();
+void descompresion_LZ78(int* lista_prefijos, char* lista_cadenas, int nparejas, char*& texto_reconstruido);
 
 //Funcion para buscar una cadena dentro del diccionario
 int buscar(int* dic_prefijos, char* dic_cadenas, int tamanio, int prefijo, char lbuscada);

@@ -42,22 +42,48 @@ int main(){
         //Casos de compresion
         switch (opcion){
 
-        case 1: //5.1 Compresion y descompresion RLE
+        case 1:{ //5.1 Compresion y descompresion RLE
 
             cout << "-_-_- Compresion con RLE -_-_-\n";
             ejecutarRLE(direccion, archivoFinal, posiciones, clave);
-            break;
-
-        case 2: //5.2 Compresion y descompresion LZ78
+            break;}
+        case 2: {//5.2 Compresion y descompresion LZ78
 
             cout << "-_-_- Compresion con LZ78 -_-_-\n";
             //ejecutarLZ78(direccion, archivoFinal, posiciones, clave);
 
-            break;
+            char cadena[1000];
+            cout << "Ingrese la cadena a comprimir : " << endl;
+            // 1. Limpiamos cualquier residuo o salto de linea '\n' atascado en el teclado
+            cin.ignore();
+            // 2. Leemos la linea completa de forma segura (impide que la cadena se corte)
+            cin.getline(cadena, 1000);
 
-        default:
+            int* lista_prefi = nullptr;
+            char* lista_cade = nullptr;
+            int num_parejas = 0;
+
+            compresion_LZ78(cadena,lista_prefi, lista_cade, num_parejas);
+
+            //se muestra el par (indice, caracter)
+            for(int i = 1; i < num_parejas; i++){
+                cout << "Se agrego al diccionario : (" << lista_prefi[i] << ", "<< lista_cade[i] <<"), " << endl ;
+            }
+            char* final = nullptr;
+            descompresion_LZ78(lista_prefi, lista_cade, num_parejas, final);
+
+            cout << "el texto descomprimido es :" << final<< endl ;
+            delete[] lista_prefi;
+            delete[] lista_cade;
+            delete[] final;
+
+            break;
+        }
+        default:{
             cout << "Opcion invalida" << endl;
-            break;}
+            break;
+        }
+        }
         }
 
 
