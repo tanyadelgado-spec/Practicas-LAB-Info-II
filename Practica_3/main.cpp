@@ -68,7 +68,7 @@ int main(){
             cout << "Opcion invalida" << endl;
             break;}
         }
-        }
+    }
     cout << "\nSalida exitosa.\n";
     return 0;
 }

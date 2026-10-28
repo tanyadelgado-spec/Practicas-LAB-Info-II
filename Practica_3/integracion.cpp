@@ -58,7 +58,7 @@ bool verificarRLE(const string &original, const string &recuperado){
     return original == recuperado;
 }
 
-//Ejecucción de compresion RLE
+//Ejecución de compresion RLE
 void ejecutarRLE(const string &direccion, const string &archivoFinal, int posiciones, unsigned char clave){
 
     //Leer archivo original
@@ -196,7 +196,7 @@ bool verificarLZ78(const char *original, const char *recuperado, int tamanio){
 }
 
 
-//Ejecucción de compresion LZ78
+//Ejecución de compresion LZ78
 void ejecutarLZ78(const string &direccion, const string &archivoFinal, int posiciones, unsigned char clave) {
     //  Leer el archivo original
     string original = leerArchivoRLE(direccion);

@@ -1,0 +1,31 @@
+-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-Uso de STL-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+
+                                                      -_-_-_-_-Map-_-_-_-_-
+
+Utilizamos 'map' en Enrutadores, vecinos, costos, distancias y padres; este nos permite asociar claves con valores (almacena pares de clave y valor), por lo que la busqueda se da por nombre y se mantienen las respectivas claves ordenadas.
+
+La búsqueda por clave permite consultar un enrutador por su nombre, sin recorrer cada uno de  los elementos; las claves siempre son diferentes y únicas para cada componente asociado, además, mantienen un orden, facilitando la presentación de las tablas.
+
+También, permite agregar, modificar y borrar entradas de forma sencilla, lo que resulta optimo para el programa.
+
+                                                       -_-_-_-_-Vector-_-_-_-_-
+
+Es usado en la ruta encontrada y elementos internos de la cola de prioridad; permite almacenar secuencias dinámicas de elementos y recorrerlas por medio de su índice.
+Siendo la ruta entre dos enrutadores una secuencia ordenada de nodos, 'vector' permite guardar los nodos en el orden correcto, añadirlos durante la reconstrucción de la ruta y recorrerlos mediante índices para imprimir las flechas.
+
+Además, permite el acceso directo por posición, su tamaño es dinámico, el almacenamiento es contiguo, lo que favorece el rendimiento y es fácil de recorrer.
+
+Se selecciona por encima de las listas, dado a que estas permiten insertar y eliminar elementos en posiciones conocidas en tiempo, pero encontrar una posición específica requiere un costo mayor. Además, tiene sobrecarga de memoria por los enlaces entre nodos y peor localidad de memoria que un vector.
+
+
+                                                   -_-_-_-_-Priority_queiue-_-_-_-_-
+
+Siendo un adaptador de contenedor que almacena elementos y permite acceder siempre al que tiene mayor prioridad, lo usamos para permitir la selección del siguiente nodo de menor distancia en el algoritmo Dijkstra, dandose la extracción eficiente del elemento con mayor prioridad.
+
+'std::pair<int, std::string>' cada elemento contiene una distancia asociada y el nombre del nodo.
+'std::vector<std::pair<int, std::string>>' representa un contenedor interno donde se almacenan los elementos.
+'std::greater<...>' permite el cambio de criterio habitual de la cola para que la menor pareja tenga prioridad.
+
+                                                       -_-_-_-_-Pair-_-_-_-_-
+
+Siendo un contenedor que permite agrupar dos objetos de diferentes o iguales tipos en una sola unidad, es usado para pares de distancia y nombre de nodo. Tiene como ventaja que ya viene con operadores de comparación predefinidos, facilitando las operaciones necesitadas.
