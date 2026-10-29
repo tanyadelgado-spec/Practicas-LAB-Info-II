@@ -21,6 +21,7 @@ void mostrarMenu() {
 int main() {
     Red miRed;
     int opcion = 0;
+    std::string archivotxt = "";
 
     while (opcion != 8) {
         mostrarMenu();
@@ -37,10 +38,11 @@ int main() {
 
         switch (opcion) {
         case 1:
-            std::cout << "Ingrese el nombre del archivo (ej. topologia.txt): ";
+            std::cout << "Ingrese la ruta del archivo : ";
             std::cin >> archivo;
             if (miRed.cargarDesdeArchivo(archivo)) {
-                std::cout << "¡Topologia cargada exitosamente!\n";
+                archivotxt = archivo;
+                std::cout << "Topologia cargada exitosamente!\n";
             } else {
                 std::cout << "Error: No se pudo abrir o leer el archivo.\n";
             }
@@ -56,6 +58,13 @@ int main() {
             std::cin >> u;
             miRed.agregarEnrutador(u);
             std::cout << "Enrutador '" << u << "' agregado. Red actualizada.\n";
+            if (!archivotxt.empty()) {
+                if (miRed.guardarEnArchivo(archivotxt)) {
+                    std::cout << "Archivo actualizado exitosamente!\n";
+                } else {
+                    std::cout << "No se pudo actualizar el archivo de texto.\n";
+                }
+            }
             break;
 
         case 4:
@@ -63,6 +72,13 @@ int main() {
             std::cin >> u;
             miRed.eliminarEnrutador(u);
             std::cout << "Enrutador '" << u << "' eliminado. Red actualizada.\n";
+            if (!archivotxt.empty()) {
+                if (miRed.guardarEnArchivo(archivotxt)) {
+                    std::cout << "Archivo actualizado exitosamente!\n";
+                } else {
+                    std::cout << "Advertencia: No se pudo actualizar el archivo de texto.\n";
+                }
+            }
             break;
 
         case 5:
@@ -78,6 +94,14 @@ int main() {
                 miRed.agregarEnlace(u, v, costo);
                 std::cout << "Enlace [" << u << " <-> " << v << "] configurado con costo " << costo << ".\n";
             }
+
+            if (!archivotxt.empty()) {
+                if (miRed.guardarEnArchivo(archivotxt)) {
+                    std::cout << "Archivo actualizado exitosamente!\n";
+                } else {
+                    std::cout << "Advertencia: No se pudo actualizar el archivo de texto.\n";
+                }
+            }
             break;
 
         case 6:
@@ -87,6 +111,13 @@ int main() {
             std::cin >> v;
             miRed.eliminarEnlace(u, v);
             std::cout << "Enlace [" << u << " <-> " << v << "] eliminado si existia.\n";
+            if (!archivotxt.empty()) {
+                if (miRed.guardarEnArchivo(archivotxt)) {
+                    std::cout << "Archivo actualizado exitosamente!\n";
+                } else {
+                    std::cout << "Advertencia: No se pudo actualizar el archivo de texto.\n";
+                }
+            }
             break;
 
         case 7:

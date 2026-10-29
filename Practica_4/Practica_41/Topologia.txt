@@ -3,4 +3,5 @@ A C 10
 A D 5
 B C 3
 B D 1
-D C 2
+B Y 4
+C D 2

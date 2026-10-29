@@ -27,8 +27,10 @@ public:
     // Encuentra el camino optimo y devuelve el vector con la ruta y el costo por referencia
     int obtenerCamino(const std::string &origen, const std::string &destino, std::vector<std::string> &caminoMit);
 
-    // Cargar desde archivo (Punto 4 de la guía)
+    // Cargar desde archivo
     bool cargarDesdeArchivo(const std::string &nombreArchivo);
+    // Guardar en archivo
+    bool guardarEnArchivo(const std::string &nombreArchivo) const;
 
     // Mostrar el estado de toda la red
     void mostrarRed() const;

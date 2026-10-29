@@ -53,7 +53,7 @@ void Enrutador::mostrarEstado() const {
     }
     std::cout << "\n";
 
-    // Mostrar tabla de costos óptimos
+    // Mostrar tabla de costos optimos
     std::cout << "Tabla de costos  -> ";
     for (const auto &par : tablaCostos) {
         std::cout << "(" << par.first << ": " << par.second << ") ";
