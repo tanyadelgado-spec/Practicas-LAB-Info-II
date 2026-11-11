@@ -151,23 +151,64 @@ bool Red::cargarDesdeArchivo(const std::string &nombreArchivo) {
     std::ifstream archivo(nombreArchivo);
     if (!archivo.is_open()) return false;
 
-    std::string linea;
+    enrutadores.clear();
+    std::string u, v;
+    int costo;
 
-    while (std::getline(archivo, linea)) {
-        if (linea.empty()) continue;
-        std::stringstream ss(linea);
-        std::string u, v;
-        int costo;
-        if (ss >> u >> v >> costo) {
-            agregarEnrutador(u);
-            agregarEnrutador(v);
-            agregarEnlace(u, v, costo);
+    while (archivo >> u >> v >> costo) {
+        // Asegurar la creación de ambos enrutadores en el mapa general
+        if (enrutadores.find(u) == enrutadores.end()) enrutadores[u] = Enrutador(u);
+        if (enrutadores.find(v) == enrutadores.end()) enrutadores[v] = Enrutador(v);
+
+        // Si NO es un nodo conectado a sí mismo, se agrega el enlace real
+        if (u != v) {
+            enrutadores[u].agregarVecino(v, costo);
+            enrutadores[v].agregarVecino(u, costo);
         }
     }
+
     archivo.close();
-    recalcularTopologia();
+    recalcularTopologia(); // Actualizar las tablas de costos con Dijkstra
     return true;
 }
+
+bool Red::guardarEnArchivo(const std::string &nombreArchivo) const {
+    std::ofstream archivo(nombreArchivo);
+    if (!archivo.is_open()) return false;
+
+    // mapa auxiliar con las conexiones unicas procesadas para evitar repeticiones
+    std::map<std::pair<std::string, std::string>, int> enlacesUnicos;
+
+    for (const auto &parEnrutador : enrutadores) {
+        std::string origen = parEnrutador.first;
+        std::map<std::string, int> vecinos = parEnrutador.second.getVecinosDirectos();
+
+        if (vecinos.empty()) {
+            //enrutador es huerfano. Se guarda conectado a si mismo con costo 0.
+            enlacesUnicos[std::make_pair(origen, origen)] = 0;
+        }else{
+            for (const auto &parVecino : vecinos) {
+                std::string destino = parVecino.first;
+                int costo = parVecino.second;
+
+                // Ordenar alfabéticamente para que (A, B) y (B, A) sean tratados igual
+                std::string u = (origen < destino) ? origen : destino;
+                std::string v = (origen < destino) ? destino : origen;
+
+                enlacesUnicos[std::make_pair(u, v)] = costo;
+            }
+        }
+    }
+
+    // Escribir los enlaces unicos en el archivo
+    for (const auto &enlace : enlacesUnicos) {
+        archivo << enlace.first.first << " " << enlace.first.second << " " << enlace.second << "\n";
+    }
+
+    archivo.close();
+    return true;
+}
+
 
 void Red::mostrarRed() const {
     for (const auto &par : enrutadores) {
