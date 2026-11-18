@@ -1,7 +1,10 @@
 A B 4
 A C 10
 A D 5
+A M 2
 B C 3
 B D 1
 B Y 4
 C D 2
+K K 0
+M Y 5
