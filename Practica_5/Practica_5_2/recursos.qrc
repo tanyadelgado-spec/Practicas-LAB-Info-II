@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Fondo.png</file>
+        <file>Mario.png</file>
+        <file>Toad.png</file>
+        <file>canon.png</file>
+        <file>canon2.png</file>
+    </qresource>
+</RCC>

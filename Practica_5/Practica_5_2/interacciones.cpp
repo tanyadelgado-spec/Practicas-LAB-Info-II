@@ -50,7 +50,6 @@ void Particula::lanzar(Vector2D posInicial, double anguloGrados, double rapidezI
     const double PI = 3.14159265;
     double rad = anguloGrados * PI / 180.0;
 
-    // En Qt el eje Y crece hacia abajo, por eso velocidad.y es negativa al subir
     velocidad.x = rapidezInicial * std::cos(rad);
     velocidad.y = -rapidezInicial * std::sin(rad);
 
@@ -90,7 +89,7 @@ bool Obstaculo::danio(double danio) {
     resistencia -= danio;
 
     if (resistencia <= 0.0) {
-        resistencia = 0.0; // Evita mostrar números negativos en la interfaz
+        resistencia = 0.0; // Evita mostrar numeros negativos en la interfaz
         return true;       // Indica que el obstáculo ha sido destruido
     }
     return false;          // El obstáculo sigue en pie
@@ -111,17 +110,17 @@ void Simulacion::reiniciarJuego() {
     // Personaje protegido en la esquina inferior izquierda
     rival1 = Rival(1, 50, 440, 40, 60);
     // Obstaculos abajo protegiendo al personaje (200, 200, 100)
-    obstaculos.emplace_back(1, 1, 40,  370, 60, 50, 200.0); // Techo sobre el personaje
-    obstaculos.emplace_back(2, 1, 110, 430, 40, 70, 200.0); // Muro frontal inferior
-    obstaculos.emplace_back(3, 1, 110, 350, 40, 70, 100.0); // Muro frontal superior
+    obstaculos.emplace_back(1, 1, 0,  350, 151, 31, 200.0); // Techo sobre el personaje
+    obstaculos.emplace_back(2, 1, 110, 380, 41, 61, 200.0); // Muro frontal
+    obstaculos.emplace_back(3, 1, 110, 440, 41, 61, 300.0); // Muro frontal
 
     // --- JUGADOR 2 (Derecha, parte inferior) ---
     // Personaje protegido en la esquina inferior derecha
     rival2 = Rival(2, 710, 440, 40, 60);
     // Obstaculos abajo protegiendo al personaje (200, 200, 100)
-    obstaculos.emplace_back(4, 2, 700, 370, 70, 40, 200.0); // Techo sobre el personaje
-    obstaculos.emplace_back(5, 2, 650, 430, 40, 70, 200.0); // Muro frontal inferior
-    obstaculos.emplace_back(6, 2, 650, 350, 40, 70, 100.0); // Muro frontal superior
+    obstaculos.emplace_back(4, 2, 650, 350, 151, 31, 200.0); // Techo sobre el personaje
+    obstaculos.emplace_back(5, 2, 650, 380, 41, 61, 200.0); // Muro frontal
+    obstaculos.emplace_back(6, 2, 650, 440, 41, 61, 300.0); // Muro frontal
 
     // Ubicar el proyectil listo en el canon del Jugador 1 (mitad de altura)
     turnoActual = 1;
@@ -167,12 +166,11 @@ void Simulacion::detectarColisionPared() {
         if (proyectil.velocidad.y < 0)
             proyectil.velocidad.y *= -1;
     }
-    // Pared inferior (suelo) - Rebote elastico segun enunciado
+    // Pared inferior (suelo) - Rebote elastico
     if (proyectil.posicion.y + proyectil.radio > alto) {
         proyectil.posicion.y = alto - proyectil.radio;
         if (proyectil.velocidad.y > 0) {
             proyectil.velocidad.y *= -1;
-            // Opcional: si toca el suelo tras caer, puedes detener el tiro o dejarlo rebotar
         }
     }
 }
@@ -214,14 +212,18 @@ bool Simulacion::detectarColisionObstaculo(Obstaculo& o) {
     double normalVelocidad = proyectil.velocidad.pPunto(normal);
 
     if (normalVelocidad < 0) {
-        // Calculo de dano proporcional al momento lineal
-        double rapidezImpacto = proyectil.velocidad.longitud();
-        double momentoLineal = proyectil.masa * rapidezImpacto;
-        double danio = factorDanio * momentoLineal;
+        bool destruido = false;
 
-        bool destruido = o.danio(danio);
+        // solo hace daño a los obstaculos del rival
+        if (o.jugadorId != turnoActual) {
+            double rapidezImpacto = proyectil.velocidad.longitud();
+            double momentoLineal = proyectil.masa * rapidezImpacto;
+            double danio = factorDanio * momentoLineal;
 
-        // Rebote inelastico
+            destruido = o.danio(danio);
+        }
+
+        // El rebote inelastico SIEMPRE
         proyectil.velocidad = proyectil.velocidad - normal * ((1 + restitucion) * normalVelocidad);
 
         return destruido;
@@ -255,13 +257,13 @@ void Simulacion::actualizacion() {
 
     tiempoTurno += dt;
 
-    // 1. Mover proyectil (con gravedad)
+    // Mover proyectil (con gravedad)
     proyectil.movimiento(dt);
 
-    // 2. Colision con bordes del escenario
+    //  Colision con bordes del escenario
     detectarColisionPared();
 
-    // 3. Colision con obstaculos y eliminacion si resistencia <= 0
+    // Colision con obstaculos y eliminacion si resistencia <= 0
     for (size_t i = 0; i < obstaculos.size(); ) {
         if (detectarColisionObstaculo(obstaculos[i])) {
             obstaculos.erase(obstaculos.begin() + i);
@@ -270,7 +272,7 @@ void Simulacion::actualizacion() {
         }
     }
 
-    // 4. Verificar si impacto al representante enemigo
+    // Verificar si impacto al representante enemigo
     Rival& objetivo = (turnoActual == 1) ? rival2 : rival1;
     if (detectarColisionRival(objetivo)) {
         proyectil.detener();
@@ -279,7 +281,7 @@ void Simulacion::actualizacion() {
         return;
     }
 
-    // 5. Condicion de fin de turno: si pierde casi toda su energia o pasan 6 segundos
+    // Condicion de fin de turno: si pierde casi toda su energia o pasan 6 segundos
     if (proyectil.velocidad.longitud() < 15.0 || tiempoTurno >= 6.0) {
         proyectil.detener();
         cambiarTurno();
