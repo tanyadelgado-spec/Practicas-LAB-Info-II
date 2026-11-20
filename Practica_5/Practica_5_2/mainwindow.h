@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QTimer>
 #include <QLabel>
-#include <QList>
+#include <vector>
 #include <QPixmap>
 #include "interacciones.h"
 
@@ -30,9 +30,9 @@ private:
     Simulacion simulacion;
     QTimer *timer;
 
-    QList<QLabel*> listaObstaculosUI;
-    QPixmap pixmapCanon1; // Imagen apuntando a la derecha
-    QPixmap pixmapCanon2; // Imagen apuntando a la izquierda (ya volteada en espejo)
+    std::vector<QLabel*> listaObstaculosUI;
+    QPixmap pixmapCanon1;
+    QPixmap pixmapCanon2;
 
     void sincronizarInterfaz();
     void rotarCanonUI();

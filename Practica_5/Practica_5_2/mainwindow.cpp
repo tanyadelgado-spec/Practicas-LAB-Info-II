@@ -53,7 +53,7 @@ void MainWindow::sincronizarInterfaz() {
     const auto& obstaculosActivos = simulacion.getObstaculos();
     for (const Obstaculo& obs : obstaculosActivos) {
         int idx = obs.id - 1;
-        if (idx >= 0 && idx < listaObstaculosUI.size()) {
+        if (idx >= 0 && idx < (int)listaObstaculosUI.size()) {
             QLabel* lbl = listaObstaculosUI[idx];
             lbl->setGeometry(obs.x, obs.y, obs.ancho, obs.alto);
             lbl->setText(QString::number((int)std::ceil(obs.resistencia)));
@@ -80,7 +80,6 @@ void MainWindow::rotarCanonUI() {
     // --- Canon 1 (Izquierda, mira a la derecha) ---
     if (!pixmapCanon1.isNull()) {
         QTransform trans1;
-        // Sube en sentido antihorario (-angulo)
         trans1.rotate(simulacion.getTurnoActual() == 1 ? -angulo : 0.0);
         ui->lblCanon1->setPixmap(pixmapCanon1.transformed(trans1, Qt::SmoothTransformation));
     }
@@ -88,7 +87,6 @@ void MainWindow::rotarCanonUI() {
     // --- Canon 2 (Derecha, mira a la izquierda) ---
     if (!pixmapCanon2.isNull()) {
         QTransform trans2;
-        // Sube en sentido horario (+angulo) porque ya apunta hacia la izquierda
         trans2.rotate(simulacion.getTurnoActual() == 2 ? angulo : 0.0);
         ui->lblCanon2->setPixmap(pixmapCanon2.transformed(trans2, Qt::SmoothTransformation));
     }

@@ -13,24 +13,22 @@ public:
 // Clase Vector2D. Representa vectores bidimensionales y realiza operaciones
 class Vector2D {
 public:
-    //Coordenada horizontal 'x', coordenada vertical 'y'
     double x, y;
-    //Constructor
     Vector2D(double x = 0, double y = 0);
 
-    //Deinicion de operadores, operaciones componente a componente entre coordenadas
+    //Deinicion de operadores
     Vector2D operator+(const Vector2D& v) const;
     Vector2D operator-(const Vector2D& v) const;
     Vector2D operator*(double k) const;
     Vector2D operator/(double k) const;
 
-    //Metodo para producto punto entre vectores
+    //producto punto entre vectores
     double pPunto(const Vector2D& v) const;
-    //Metodo para calcular magnitud del vector (Pitagoras)
+    // magnitud del vector
     double longitud() const;
 };
 
-// Clase Particula. Representa el proyectil lanzado por los jugadores
+// Clase Particula.
 class Particula {
 public:
     int id;             // Identificador (ej. 1 para Jugador 1, 2 para Jugador 2)
@@ -45,14 +43,8 @@ public:
 
     // Constructor
     Particula(int id = 1, Vector2D posicion = Vector2D(0, 0), Vector2D velocidad = Vector2D(0, 0), double masa = 2.0, double radio = 10.0);
-
-    // Configura la posicion y calcula el vector velocidad a partir de angulo y magnitud
     void lanzar(Vector2D posInicial, double anguloGrados, double rapidezInicial);
-
-    // Actualiza la posicion y aplica gravedad si existe
     void movimiento(double dt);
-
-    // Detiene el proyectil al finalizar el turno
     void detener();
 };
 
@@ -105,7 +97,7 @@ private:
     const Vector2D posCanon2 = Vector2D(730.0, 250.0);  // Canon Jugador 2 (derecha, mitad de altura)
 
     // Constantes fisicas
-    const double dt = 0.016;           // ~60 FPS para animacion fluida en Qt
+    const double dt = 0.016;           // ~60 FPS
     const double restitucion = 0.65;   // Coeficiente de restitucion con obstaculos
     const double factorDanio = 0.25;   // Constante para calcular dano por momento lineal
 
@@ -135,7 +127,7 @@ public:
     // Cambia al siguiente jugador cuando el proyectil se detiene
     void cambiarTurno();
 
-    // Getters para que la interfaz grafica de Qt pueda dibujar el escenario
+    // Getters
     const Particula& getProyectil() const { return proyectil; }
     const std::vector<Obstaculo>& getObstaculos() const { return obstaculos; }
     const Rival& getRival1() const { return rival1; }
